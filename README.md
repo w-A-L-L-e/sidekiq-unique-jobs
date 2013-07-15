@@ -72,6 +72,11 @@ middleware, the JSON is passed directly to the worker `#perform` method. So, you
 arguments are different when enqueuing than they are when performing. Your `unique_args` method may need to
 account for this.
 
+## For our specific crew/crowd project called getin we use sidekiq extensively to create a large number of pdf files for crew teams.
+Turns out we need a specialized uniqueness for better performance (and avoiding deadlocks). We don't want the first job to finish and throw away the newer requests for that same job (default behaviour).
+What we want is that the older scheduled job is cancelled and the latest request is run from scratch on the given team(attending group). So it's also uniqueness, but processing the latest scheduled job and cancelling the first/previous ones.
+
+
 ## Contributing
 
 1. Fork it
